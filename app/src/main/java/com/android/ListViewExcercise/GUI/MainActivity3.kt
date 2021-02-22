@@ -1,5 +1,6 @@
 package com.android.ListViewExcercise.GUI
 
+import android.app.Activity
 import android.app.ListActivity
 import android.content.Context
 import android.graphics.Color
@@ -12,14 +13,24 @@ import com.android.ListViewExcercise.Model.BEFriend
 import com.android.ListViewExcercise.Model.Friends
 import com.android.ListViewExcercise.R
 
-class MainActivity3 : ListActivity() {
+class MainActivity3 : Activity() {
+    var isToggle = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        listAdapter = FriendAdapter(this, Friends().getAll())
+        setContentView(R.layout.activity_filter)
+
+        isToggle = false
+        val adapter = FriendAdapter(this, Friends().getAll())
+
+        val lv = findViewById<ListView>(R.id.listView)
+        val tg = findViewById<ToggleButton>(R.id.toggleButton)
+        lv.setOnItemClickListener{_, _, position, _ ->  handleClick(position)}
+        tg.setOnClickListener{ v -> handleToggleClick()}
+
+        lv.adapter = adapter
     }
 
-    override fun onListItemClick(parent: ListView?,
-                                 v: View?, position: Int, id: Long) {
+     fun handleClick(position: Int) {
         // position is in the list!
         // first get the name of the person clicked
         val name = Friends().getAll()[position].name
@@ -29,6 +40,26 @@ class MainActivity3 : ListActivity() {
             "Hi $name! Have you done your homework?",
             Toast.LENGTH_LONG
         ).show()
+    }
+
+    fun handleToggleClick(){
+
+        if (isToggle) {
+            isToggle = false
+            val lv = findViewById<ListView>(R.id.listView)
+            val adapter = FriendAdapter(this, Friends().getAll())
+            lv.adapter = adapter
+        }
+        else
+        {
+            isToggle = true
+            val lv = findViewById<ListView>(R.id.listView)
+            val adapter = FriendAdapter(this, Friends().getAll().filter { f -> f.isFavorite == true  }.toTypedArray())
+            lv.adapter = adapter
+
+        }
+
+
     }
 
     internal class FriendAdapter(context: Context,
@@ -53,9 +84,11 @@ class MainActivity3 : ListActivity() {
             val f = friends[position]
             val nameView = resView.findViewById<TextView>(R.id.tvNameExt)
             val phoneView = resView.findViewById<TextView>(R.id.tvPhoneExt)
+            val addressView = resView.findViewById<TextView>(R.id.tvAddressExt)
             val favoriteView = resView.findViewById<ImageView>(R.id.imgFavoriteExt)
             nameView.text = f.name
             phoneView.text = f.phone
+            addressView.text = f.address
 
             favoriteView.setImageResource(if (f.isFavorite) R.drawable.ok else R.drawable.notok)
             return resView

@@ -18,8 +18,8 @@ class MainActivity2 : ListActivity() {
             this,
             asListMap(Friends().getAll()),
             R.layout.cell,
-            arrayOf("name", "phone"),
-            intArrayOf(R.id.name, R.id.phone)
+            arrayOf("name", "phone", "address"),
+            intArrayOf(R.id.name, R.id.phone, R.id.address)
         )
     }
 
@@ -28,7 +28,7 @@ class MainActivity2 : ListActivity() {
      */
     private fun asListMap(src: Array<BEFriend>): List<Map<String, String?>> {
 
-        return src.map{ person -> hashMapOf("name" to person.name, "phone" to person.phone) }
+        return src.map{ person -> hashMapOf("name" to person.name, "phone" to person.phone, "address" to person.address) }
     }
 
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ListViewExcercise</string>
+    <string name="filter_tooglebutton_text">Show only favorites</string>
 </resources>
