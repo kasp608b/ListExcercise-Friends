@@ -33,7 +33,7 @@ class MainActivity3 : Activity() {
      fun handleClick(position: Int) {
         // position is in the list!
         // first get the name of the person clicked
-        val name = Friends().getAll()[position].name
+        val name         = Friends().getAll()[position].name
         // and a greeting
         Toast.makeText(
             this,
