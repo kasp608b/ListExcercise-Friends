@@ -29,7 +29,6 @@ class MainActivity3 : Activity() {
 
         lv.adapter = adapter
     }
-
      fun handleClick(position: Int) {
         // position is in the list!
         // first get the name of the person clicked
